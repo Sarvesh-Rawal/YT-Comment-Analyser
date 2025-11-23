@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SociaLyze - Social Media Sentiment Analyzing System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <h1>SociaLyze</h1>
+      <p class="tagline">Social Media Semantic & Sentiment Analysis Dashboard</p>
+    </header>
+
+    <!-- URL Input Section -->
+    <section class="input-section">
+      <label for="url">Enter Post URL:</label>
+      <input type="text" id="url" placeholder="Paste YouTube video URL here..." />
+      <button id="analyze-btn">Analyze</button>
+    </section>
+
+    <!-- Post Information -->
+    <section class="post-info">
+      <h2>Post Information</h2>
+      <div class="info-grid">
+        <div class="info-card">
+          <h4>Platform</h4>
+          <p>YouTube</p>
+        </div>
+        <div class="info-card title-card">
+          <h4>Post Title</h4>
+          <p class="post-title" id="post-title">
+            <span class="title-short">-</span>
+          </p>
+
+          <!-- Hidden popup -->
+          <div class="title-popup" id="title-popup">
+            <p id="title-full-popup">Full Title Here</p>
+          </div>
+        </div>
+        <div class="info-card">
+          <h4>Total Comments</h4>
+          <p>-</p>
+        </div>
+        <div class="info-card">
+          <h4>Uploaded On</h4>
+          <p>-</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Overview -->
+    <section class="overview">
+      <div class="card positive-card">
+        <h3>Positive Comments</h3>
+        <p class="value">-</p>
+      </div>
+      <div class="card neutral-card">
+        <h3>Neutral Comments</h3>
+        <p class="value">-</p>
+      </div>
+      <div class="card negative-card">
+        <h3>Negative Comments</h3>
+        <p class="value">-</p>
+      </div>
+    </section>
+
+    <!-- Charts Section -->
+    <section class="charts">
+      <div class="chart">
+        <h3>Sentiment Distribution (Pie Chart)</h3>
+        <img id="pieChart">
+      </div>
+
+      <div class="chart">
+        <h3>Sentiment Comparison (Bar Chart)</h3>
+        <img id="barChart">
+      </div>
+
+      <div class="chart">
+        <h3>Sentiment Trend Over Time (Line Chart)</h3>
+        <img id="lineChart">
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 SociaLyze Dashboard | All Rights Reserved</p>
+    </footer>
+  </div>
+
+  <!-- Negative Comments Popup -->
+  <div id="comments-popup" class="popup-overlay">
+    <div class="popup-content">
+      <span class="popup-close" id="popup-close">&times;</span>
+      <h3 id="popup-title">Negative Comments</h3>
+      <ul id="popup-comments-list">
+        <!-- Negative comments will be populated here by JavaScript -->
+      </ul>
+    </div>
+  </div>
+</body>
+
+</html>
