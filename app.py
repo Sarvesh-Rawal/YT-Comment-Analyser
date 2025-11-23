@@ -1,3 +1,5 @@
+import nltk
+nltk.data.path.append("nltk_data")
 from flask import Flask, render_template, request, jsonify
 from backend.scrapper.yt_comments import fetch_youtube_comments
 from backend.data_processing.data_cleaning import clean_comments_df
