@@ -1,4 +1,4 @@
 .env
-insta_comments.py
+backend/scrapper/insta_comments.py
 ig_cookies.pkl
 .vscode
