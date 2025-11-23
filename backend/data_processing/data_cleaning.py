@@ -5,12 +5,12 @@ from .hinglish_dict import hinglish_to_english
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer, PorterStemmer
-# import nltk
+import nltk
 
-# nltk.download('punkt')
-# nltk.download('punkt_tab')
-# nltk.download('stopwords')
-# nltk.download('wordnet')
+nltk.download('punkt')
+nltk.download('punkt_tab')
+nltk.download('stopwords')
+nltk.download('wordnet')
 
 stop_words = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
