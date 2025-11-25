@@ -24,7 +24,7 @@ def fetch_youtube_comments(video_url: str) -> pd.DataFrame:
 
     comments = []
     next_page_token = None
-    max_comments = 50
+    max_comments = 100
 
     video_response = youtube.videos().list(
     part="snippet",
@@ -54,14 +54,7 @@ def fetch_youtube_comments(video_url: str) -> pd.DataFrame:
                 "time": published_at,
                 "comment": comment
             })
-
-            # Stop if reached comment limit
-            if len(comments) >= max_comments:
-                break
-
-        if len(comments) >= max_comments:
-            break
-
+            
         next_page_token = response.get("nextPageToken")
         if not next_page_token:
             break

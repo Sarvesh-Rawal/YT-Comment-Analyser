@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, jsonify
 from backend.scrapper.yt_comments import fetch_youtube_comments
 from backend.data_processing.data_cleaning import clean_comments_df
 from backend.model.model_use import analyze_comments
+from backend.model.vader import analyze_comments_vader
 from backend.database.store_data import update_database
 from backend.model.sentiment_summary import summarize_sentiments
 
@@ -29,7 +30,7 @@ def analyze_video():
         
         # Step 1: Fetch comments from YouTube
         df, uplaod_date, video_title, video_id = fetch_youtube_comments(video_url)
-        print(f"\nFetched {len(df)} comments \n")
+        print(f"\n\nFetched {len(df)} comments \n")
         
         # Step 2: Clean comments
         df = clean_comments_df(df)
@@ -37,6 +38,7 @@ def analyze_video():
 
         # Step 3: Analyze comments using the pre-trained model
         df = analyze_comments(df)
+        # df = analyze_comments_vader(df)
         print("Sentiment analysis completed and new column added \n")
         # print(df.head())
 

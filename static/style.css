@@ -328,3 +328,36 @@ footer {
   font-size: 0.9rem;
   color: #333;
 }
+
+/* Hide class for disappearing sections */
+.hide {
+  display: none !important;
+}
+
+/* Loading spinner overlay */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.loading-spinner.hidden {
+  display: none;
+}
+
+.spinner {
+  width: 55px;
+  height: 55px;
+  border: 6px solid #dce3eb;
+  border-top: 6px solid #5271ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

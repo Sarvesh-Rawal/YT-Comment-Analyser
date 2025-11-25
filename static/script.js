@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let negativeCommentsData = []; // Store negative comments
 
   const input = document.getElementById('url');
+  input.focus();
+  input.select();
   const button = document.getElementById('analyze-btn');
 
   // Post info elements
@@ -34,14 +36,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const titleShort = document.querySelector(".title-short");
   const titleFullPopup = document.getElementById("title-full-popup");
 
+  // Trigger analyze button on Enter key press in the input field
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      button.click();
+    }
+  });
+
   button.addEventListener('click', async (e) => {
     e.preventDefault();
+    console.log("analyzing");
 
     const videoUrl = input.value.trim();
     if (!videoUrl) {
       console.warn('No URL entered — nothing sent.');
       return;
     }
+
+    // All sections except input area
+    const postInfo = document.querySelector('.post-info');
+    const overview = document.querySelector('.overview');
+    const charts = document.querySelector('.charts');
+    const footer = document.querySelector('footer');
+
+    const spinner = document.getElementById('loading-spinner');
+
+    // Hide everything except input section
+    postInfo.classList.add('hide');
+    overview.classList.add('hide');
+    charts.classList.add('hide');
+    footer.classList.add('hide');
+
+    // Show loading spinner
+    spinner.classList.remove('hidden');
 
     try {
       const res = await fetch('/analyze_video', {
@@ -52,51 +80,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!res.ok) {
         const err = await res.json();
-        console.error('Error from backend:', err);
         alert('Error fetching data: ' + (err.error || 'Unknown error'));
         return;
       }
 
       const data = await res.json();
 
-      // 1️⃣ Update Post Info
-      // Set short title
+      // Update title
       postTitleEl.textContent = shortenTitle(data.video_title) || 'N/A';
-      // Set full title for popup
       document.getElementById("title-full-popup").textContent = data.video_title || "N/A";
 
+      // Update info
       totalCommentsEl.textContent = data.summary.total_comments ?? 0;
-      uploadedOnEl.textContent = data.upload_date ? new Date(data.upload_date).toISOString().split('T')[0] : 'N/A';
+      uploadedOnEl.textContent = data.upload_date
+        ? new Date(data.upload_date).toISOString().split('T')[0]
+        : 'N/A';
 
-      // 2️⃣ Update Overview
+      // Update overview
       positiveEl.textContent = data.summary.positive ?? 0;
       neutralEl.textContent = data.summary.neutral ?? 0;
       negativeEl.textContent = data.summary.negative ?? 0;
 
       // Store negative comments
       negativeCommentsData = data.summary.negative_comments || [];
-      console.log(data.summary.negative_comments);
-      
-      // negativeCommentsData = [
-      //   'This is a sample negative comment 1.',
-      //   'This is a sample negative comment 2.',
-      //   'This is a sample negative comment 3.',
-      //   'This is a sample negative comment 4.',
-      //   'This is a sample negative comment 5.',
-      // ];
-      
-      // 3️⃣ Update Charts (Base64 images from backend)
-      if (data.summary.pie_chart) pieImg.src = `data:image/png;base64,${[data.summary.pie_chart]}`;
+
+      // Update charts
+      if (data.summary.pie_chart) pieImg.src = `data:image/png;base64,${data.summary.pie_chart}`;
       if (data.summary.bar_chart) barImg.src = `data:image/png;base64,${data.summary.bar_chart}`;
       if (data.summary.line_chart) lineImg.src = `data:image/png;base64,${data.summary.line_chart}`;
 
-      console.log(data);
-      // console.log(data.summary.pie_chart);
     } catch (err) {
       console.error('Network or parsing error:', err);
       alert('Failed to fetch data. Check console for details.');
     }
+
+    // Restore UI after loading
+    spinner.classList.add('hidden');
+
+    postInfo.classList.remove('hide');
+    overview.classList.remove('hide');
+    charts.classList.remove('hide');
+    footer.classList.remove('hide');
   });
+
 
   // --- Popup Logic ---
 
@@ -120,5 +146,18 @@ document.addEventListener('DOMContentLoaded', () => {
     commentsPopup.classList.remove('show');
   });
 
+  // Close popup when clicking outside the popup content
+  commentsPopup.addEventListener('click', (e) => {
+    if (e.target === commentsPopup) {
+      commentsPopup.classList.remove('show');
+    }
+  });
+
+  // Close popup when pressing ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === "Escape") {
+      commentsPopup.classList.remove('show');
+    }
+  });
 
 });

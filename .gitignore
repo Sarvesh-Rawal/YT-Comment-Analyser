@@ -3,3 +3,5 @@ backend/scrapper/insta_comments.py
 ig_cookies.pkl
 .vscode
 backend/model/main.py
+vader.py
+__pycache__/
