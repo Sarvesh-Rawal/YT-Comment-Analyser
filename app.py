@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, jsonify
 from backend.scrapper.yt_comments import fetch_youtube_comments
 from backend.data_processing.data_cleaning import clean_comments_df
 from backend.model.model_use import analyze_comments
-from backend.model.vader import analyze_comments_vader
+# from backend.model.vader import analyze_comments_vader
 from backend.database.store_data import update_database
 from backend.model.sentiment_summary import summarize_sentiments
 
