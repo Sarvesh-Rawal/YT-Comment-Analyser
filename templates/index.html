@@ -99,16 +99,24 @@
     </footer>
   </div>
 
-  <!-- Negative Comments Popup -->
-  <div id="comments-popup" class="popup-overlay">
-    <div class="popup-content">
-      <span class="popup-close" id="popup-close">&times;</span>
-      <h3 id="popup-title">Negative Comments</h3>
-      <ul id="popup-comments-list">
-        <!-- Negative comments will be populated here by JavaScript -->
-      </ul>
-    </div>
+<!-- Positive/Negative Comments Popup -->
+<div id="comments-popup" class="popup-overlay">
+  <div class="popup-content">
+    <span class="popup-close" id="popup-close">&times;</span>
+    <h3 id="popup-title"></h3>
+    
+    <!-- Warning Note -->
+    <p class="popup-warning">
+      ⚠️ Note: Sentiment results may not always be 100% accurate.  
+      The system may misclassify some comments due to sarcasm, slang, or context.
+    </p><br>
+
+    <ul id="popup-comments-list">
+      <!-- comments will be populated here by JavaScript -->
+    </ul>
   </div>
+</div>
+
   
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

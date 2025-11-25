@@ -329,6 +329,16 @@ footer {
   color: #333;
 }
 
+.popup-warning {
+  margin-top: 15px;
+  font-size: 0.85rem;
+  color: #b30000;
+  background: #ffe6e6;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-left: 4px solid #ff4d4d;
+}
+
 /* Hide class for disappearing sections */
 .hide {
   display: none !important;

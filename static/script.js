@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-  let negativeCommentsData = []; // Store negative comments
+  let positiveCommentsData = []; // Store positive comments
+  let neutralCommentsData = []; // Store neutral comments
+  let negativeCommentsData = []; // Store negetive comments
 
   const input = document.getElementById('url');
   input.focus();
@@ -25,7 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const commentsPopup = document.getElementById('comments-popup');
   const popupCloseBtn = document.getElementById('popup-close');
   const commentsListEl = document.getElementById('popup-comments-list');
+  const positiveCard = document.querySelector('.positive-card');
+  const neutralCard = document.querySelector('.neutral-card');
   const negativeCard = document.querySelector('.negative-card');
+  const popupTitleEl = document.getElementById('popup-title');
 
 
   function shortenTitle(title, maxLength = 20) {
@@ -101,7 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
       neutralEl.textContent = data.summary.neutral ?? 0;
       negativeEl.textContent = data.summary.negative ?? 0;
 
-      // Store negative comments
+      // Store comments
+      positiveCommentsData = data.summary.positive_comments || [];
+      neutralCommentsData = data.summary.neutral_comments || [];
       negativeCommentsData = data.summary.negative_comments || [];
 
       // Update charts
@@ -125,9 +132,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // --- Popup Logic ---
+  // Show popup when Positive card is clicked
+  positiveCard.addEventListener('click', () => {
+    popupTitleEl.textContent = "Positive Comments";
+    document.body.style.overflow = "hidden"; //Disables background window scroll
+    if (positiveCommentsData.length > 0) {
+      commentsListEl.innerHTML = ''; // Clear previous comments
+      positiveCommentsData.forEach(comment => {
+        const li = document.createElement('li');
+        li.textContent = comment;
+        commentsListEl.appendChild(li);
+      });
+      commentsPopup.classList.add('show');
+    } else {
+      alert('No positive comments to display or data not loaded yet.');
+    }
+  });
 
-  // Show popup when negative card is clicked
+  // Show popup when Neutral card is clicked
+  neutralCard.addEventListener('click', () => {
+    popupTitleEl.textContent = "Neutral Comments";
+    document.body.style.overflow = "hidden"; //Disables background window scroll
+    if (neutralCommentsData.length > 0) {
+      commentsListEl.innerHTML = ''; // Clear previous comments
+      neutralCommentsData.forEach(comment => {
+        const li = document.createElement('li');
+        li.textContent = comment;
+        commentsListEl.appendChild(li);
+      });
+      commentsPopup.classList.add('show');
+    } else {
+      alert('No neutral comments to display or data not loaded yet.');
+    }
+  });
+
+  // Show popup when Negetive card is clicked
   negativeCard.addEventListener('click', () => {
+    popupTitleEl.textContent = "Negative Comments";
+    document.body.style.overflow = "hidden"; //Disables background window scroll
     if (negativeCommentsData.length > 0) {
       commentsListEl.innerHTML = ''; // Clear previous comments
       negativeCommentsData.forEach(comment => {
@@ -144,12 +186,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Hide popup when close button is clicked
   popupCloseBtn.addEventListener('click', () => {
     commentsPopup.classList.remove('show');
+    document.body.style.overflow = "auto"; //Enables background window scroll
   });
 
   // Close popup when clicking outside the popup content
   commentsPopup.addEventListener('click', (e) => {
     if (e.target === commentsPopup) {
       commentsPopup.classList.remove('show');
+      document.body.style.overflow = "auto"; //Enables background window scroll
     }
   });
 
@@ -157,6 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (e) => {
     if (e.key === "Escape") {
       commentsPopup.classList.remove('show');
+      document.body.style.overflow = "auto"; //Enables background window scroll
     }
   });
 

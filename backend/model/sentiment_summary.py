@@ -46,7 +46,11 @@ def summarize_sentiments(video_id: str) -> dict:
     df = pd.read_sql_query(query, con, params=(video_id,))
     con.close()
 
-    # Fetch negative comments
+    # Fetch comments
+    positive_comments_df = df[df['sentiment'] == 'Positive']
+    positive_comments = positive_comments_df['comment'].tolist()
+    neutral_comments_df = df[df['sentiment'] == 'Neutral']
+    neutral_comments = neutral_comments_df['comment'].tolist()
     negative_comments_df = df[df['sentiment'] == 'Negative']
     negative_comments = negative_comments_df['comment'].tolist()
     
@@ -117,6 +121,8 @@ def summarize_sentiments(video_id: str) -> dict:
         "bar_chart": bar_base64,
         "line_chart": line_base64,
         "pie_chart": pie_base64,
+        "positive_comments": positive_comments,
+        "neutral_comments": neutral_comments,
         "negative_comments": negative_comments
     })
 
